@@ -9,33 +9,48 @@ namespace Triangle_Proportion_Calculator.Initialize
 {
     public class Initialization
     {
-        internal static void Init_SideToCalculate(string ControlName, ref int SideToCalculate, ref int Completion)
+        internal static void Init_SideToCalculate(string ControlName, bool SideCVisible, ref int SideToCalculate, ref int Completion, ref int SidesCalculated)
         {
+
+            if (SideCVisible == false && SidesCalculated >= 1)
+            {
+
+                Completion = 99;
+                return;
+
+            }
+            else if (SideCVisible == true && SidesCalculated >= 2)
+            {
+                Completion = 99;
+                return;
+
+            }
+
             switch (ControlName)
             {
 
                 case "SideAInput":
-                    SideToCalculate = 1;
+                    SideToCalculate += 1;
                     break;
 
                 case "SideBInput":
-                    SideToCalculate = 2;
+                    SideToCalculate += 2;
                     break;
 
                 case "SideCInput":
-                    SideToCalculate = 3;
+                    SideToCalculate += 3;
                     break;
 
                 case "SideXInput":
-                    SideToCalculate = 4;
+                    SideToCalculate += 4;
                     break;
 
                 case "SideYInput":
-                    SideToCalculate = 5;
+                    SideToCalculate += 5;
                     break;
 
                 case "SideZInput":
-                    SideToCalculate = 6;
+                    SideToCalculate += 6;
                     break;
 
                 default:
@@ -43,16 +58,25 @@ namespace Triangle_Proportion_Calculator.Initialize
                     break;
 
             }
-                return;
+
+            SidesCalculated++;
+
+            return;
         }
 
         internal static void Init_SetTriangle(int SideToCalculate, Triangle Triangle1, Triangle Triangle2, string SideAIn, string SideBIn, string SideCIn,
-                                                                                                            string SideXIn, string SideYIn, string SideZIn, bool SideCVisible)
+                                                                                                            string SideXIn, string SideYIn, string SideZIn, 
+                                                                                                             bool SideCVisible, ref int Completion)
         {
+
+            if (SideAIn == "0" || SideBIn == "0" || SideCIn == "0"|| SideXIn == "0" || SideYIn == "0" || SideZIn == "0")
+            {
+                Completion = 99;    
+
+            }
 
             switch (SideToCalculate)
             {
-
                 case 1:
                     Triangle1.SideB = float.Parse(SideBIn);
                     Triangle2.SideA = float.Parse(SideXIn);
@@ -107,7 +131,6 @@ namespace Triangle_Proportion_Calculator.Initialize
                 case 6:
                     if (SideCVisible)
                     {
-
                         Triangle1.SideA = float.Parse(SideAIn);
                         Triangle1.SideB = float.Parse(SideBIn);
                         Triangle1.SideC = float.Parse(SideCIn);

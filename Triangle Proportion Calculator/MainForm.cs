@@ -11,42 +11,47 @@ namespace Triangle_Proportion_Calculator
             InitializeComponent();
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void Calculate_Click(object sender, EventArgs e)
         {
-            int Total = 0;
             int Completion = 0;
             int SideToCalculate = 0;
-            float TextboxValue = 0;
+            int SidesCalculated = 0;
             OutputBox.Text = "";
+
+            bool SideCVisible = SideCInput.Visible;
 
             foreach (Control c in Controls)
             {
-
                 if (c is TextBox)
                 {
-
                     if (c.Visible)
                     {
-                        Total++;
                         string TextName = c.Text;
                         string ControlName = c.Name;
 
-                        if (float.TryParse(c.Text, out TextboxValue))
+                    if (TextName == "N" || TextName == "n")
                         {
-                            Completion++;
-                        }
 
-                        else if (TextName == "N")
-                        {
-                             
-                           Initialization.Init_SideToCalculate(ControlName, ref SideToCalculate, ref Completion);
+                            Initialization.Init_SideToCalculate(ControlName, SideCVisible, ref SideToCalculate, ref Completion, ref SidesCalculated);
+
+                            if (SideCVisible == false && Completion == 99)
+                            {
+                                OutputBox.AppendText("There is more than 1 variable entered. There needs to be only 1 N for this proportion." + Environment.NewLine);
+                                return;
+
+                            }
+                            else if (SideCVisible == true && Completion == 99)
+                            {
+                                OutputBox.AppendText("There is more than 2 variable entered. There needs to be only 1 N for this proportion." + Environment.NewLine);
+                                return;
+
+                            }
 
                         }
 
                         else
                         {
-
-                            OutputBox.AppendText(c.Name + " is in the incorrect format." + Environment.NewLine);
+                            OutputBox.AppendText(ControlName + " is in the incorrect format." + Environment.NewLine);
 
                         }
 
@@ -59,44 +64,74 @@ namespace Triangle_Proportion_Calculator
             Triangle Triangle1 = new Triangle();
             Triangle Triangle2 = new Triangle();
 
-            if (SideToCalculate >= 1 && SideToCalculate <= 6)
+            if (SideToCalculate >= 1 && SideToCalculate <= 6 && Completion != 99)
             {
 
-                string SideAIn = "";
-                string SideBIn = "";
-                string SideCIn = "";
-                string SideXIn = "";
-                string SideYIn = "";
-                string SideZIn = "";
-                bool SideCVisible = false;
+                string SideAIn = SideAInput.Text;
+                string SideBIn = SideBInput.Text;
+                string SideCIn = SideCInput.Text;
+                string SideXIn = SideXInput.Text;
+                string SideYIn = SideYInput.Text;
+                string SideZIn = SideZInput.Text;
+                bool Successful = false;
 
-                SideAIn = SideAInput.Text;
-                SideBIn = SideBInput.Text;
-                SideCIn = SideCInput.Text;
-                SideXIn = SideXInput.Text;
-                SideYIn = SideYInput.Text;
-                SideZIn = SideZInput.Text;
-                SideCVisible = SideCInput.Visible;
+                Initialization.Init_SetTriangle(SideToCalculate, Triangle1, Triangle2, SideAIn, SideBIn, SideCIn, SideXIn, SideYIn, SideZIn, SideCVisible, ref Completion);
 
-                Initialization.Init_SetTriangle(SideToCalculate, Triangle1, Triangle2, SideAIn, SideBIn, SideCIn, SideXIn, SideYIn, SideZIn, SideCVisible);
+                if (Completion == 99)
+                {
+                    OutputBox.AppendText("There is a zero on one of the sides. Variable will be zero.");
+                    return;
+
+                }
+
+                if (SideToCalculate <= 3)
+                {
+                    DoMath.DoMath_Triangle1Calculation(Triangle1, Triangle2, ref Successful);
+
+                    if (Successful == true)
+                    {
+                        OutputBox.AppendText("Triangle1 calculation is follows: " + Environment.NewLine +
+                                                "Side A: " + Triangle1.SideA + Environment.NewLine +
+                                                "Side B: " + Triangle1.SideB + Environment.NewLine);
+
+                        if (SideCVisible == true)
+                        {
+                            OutputBox.AppendText("Side C: " + Triangle1.SideC + Environment.NewLine);
+
+                        }
+
+                    }
+
+                }
+
+                else if (SideToCalculate > 3 && SideToCalculate <= 6)
+                {
+                    DoMath.DoMath_Triangle2Calculation(Triangle1, Triangle2, ref Successful);
+
+                    if (Successful == true)
+                    {
+                        OutputBox.AppendText("Triangle2 calculation is follows: " + Environment.NewLine +
+                                                "Side A: " + Triangle2.SideA + Environment.NewLine +
+                                                "Side B: " + Triangle2.SideB + Environment.NewLine);
+
+                        if (SideCVisible == true)
+                        {
+                            OutputBox.AppendText("Side C: " + Triangle2.SideC + Environment.NewLine);
+
+                        }
+
+                    }
+
+                }
 
             }
-
-            DoMath.DoMath_Triangle1Calculation(Triangle1, Triangle2);
-
-            OutputBox.AppendText("Triangle1 Calculation is follows: " + Environment.NewLine +
-                                 "Side A: " + Triangle1.SideA + Environment.NewLine +
-                                 "Side B: " + Triangle1.SideB + Environment.NewLine +
-                                 "Side C: " + Triangle1.SideC + Environment.NewLine);
 
         }
 
         private void TwoThreePicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             if (TwoThreePicker.SelectedIndex == 1)
             {
-
                 ThreeLabel.Visible = true;
                 SideCInput.Visible = true;
                 SideZInput.Visible = true;
@@ -105,10 +140,12 @@ namespace Triangle_Proportion_Calculator
 
             else
             {
-
                 ThreeLabel.Visible = false;
                 SideCInput.Visible = false;
                 SideZInput.Visible = false;
+
+                SideCInput.Text = "";
+                SideZInput.Text = "";
 
             }
 
