@@ -29,7 +29,7 @@ namespace Triangle_Proportion_Calculator
                         string TextName = c.Text;
                         string ControlName = c.Name;
 
-                    if (TextName == "N" || TextName == "n")
+                        if (TextName == "N" || TextName == "n")
                         {
 
                             Initialization.Init_SideToCalculate(ControlName, SideCVisible, ref SideToCalculate, ref Completion, ref SidesCalculated);
@@ -42,16 +42,17 @@ namespace Triangle_Proportion_Calculator
                             }
                             else if (SideCVisible == true && Completion == 99)
                             {
-                                OutputBox.AppendText("There is more than 2 variable entered. There needs to be only 1 N for this proportion." + Environment.NewLine);
+                                OutputBox.AppendText("There is more than 2 variable entered. There needs to be only 1 or 2 N(s) for this proportion." + Environment.NewLine);
                                 return;
 
                             }
 
                         }
 
-                        else
+                        else if (!float.TryParse(TextName, out _))
                         {
-                            OutputBox.AppendText(ControlName + " is in the incorrect format." + Environment.NewLine);
+                            OutputBox.AppendText(ControlName + " is in the incorrect format. Please correct and try again." + Environment.NewLine);
+                            return;
 
                         }
 
@@ -64,7 +65,7 @@ namespace Triangle_Proportion_Calculator
             Triangle Triangle1 = new Triangle();
             Triangle Triangle2 = new Triangle();
 
-            if (SideToCalculate >= 1 && SideToCalculate <= 6 && Completion != 99)
+            if (Completion != 99)
             {
 
                 string SideAIn = SideAInput.Text;
@@ -86,7 +87,7 @@ namespace Triangle_Proportion_Calculator
 
                 if (SideToCalculate <= 3)
                 {
-                    DoMath.DoMath_Triangle1Calculation(Triangle1, Triangle2, ref Successful);
+                    DoMath.Triangle1Calculation(Triangle1, Triangle2, ref Successful);
 
                     if (Successful == true)
                     {
@@ -106,7 +107,7 @@ namespace Triangle_Proportion_Calculator
 
                 else if (SideToCalculate > 3 && SideToCalculate <= 6)
                 {
-                    DoMath.DoMath_Triangle2Calculation(Triangle1, Triangle2, ref Successful);
+                    DoMath.Triangle2Calculation(Triangle1, Triangle2, ref Successful);
 
                     if (Successful == true)
                     {
@@ -119,6 +120,33 @@ namespace Triangle_Proportion_Calculator
                             OutputBox.AppendText("Side C: " + Triangle2.SideC + Environment.NewLine);
 
                         }
+
+                    }
+
+                }
+
+                else if (SideToCalculate == 7)
+                {
+                    DoMath.ThreeSideCalculation(Triangle1, Triangle2, ref Successful);
+
+                    if (Successful == true)
+                    {
+                        OutputBox.AppendText("Triangle1 calculation is follows: " + Environment.NewLine +
+                        "Side A: " + Triangle1.SideA + Environment.NewLine +
+                        "Side B: " + Triangle1.SideB + Environment.NewLine +
+                        "Side C: " + Triangle1.SideC + Environment.NewLine +
+                        "--------------------" + Environment.NewLine);
+
+                        OutputBox.AppendText("Triangle2 calculation is follows: " + Environment.NewLine +
+                        "Side A: " + Triangle2.SideA + Environment.NewLine +
+                        "Side B: " + Triangle2.SideB + Environment.NewLine +
+                        "Side C: " + Triangle2.SideC);
+
+                    }
+
+                    else
+                    {
+                        OutputBox.AppendText("Problem is insolvable.");
 
                     }
 

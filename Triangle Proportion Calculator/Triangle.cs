@@ -17,6 +17,7 @@ namespace Triangle_Proportion_Calculator
         public float AngleAC = 0;
 
         public int SideToCompare = 0;
+        
     }
 
 

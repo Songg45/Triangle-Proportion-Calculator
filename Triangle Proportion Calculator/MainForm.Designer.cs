@@ -62,7 +62,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OutputBox.Location = new System.Drawing.Point(12, 131);
             this.OutputBox.Name = "OutputBox";
-            this.OutputBox.Size = new System.Drawing.Size(415, 125);
+            this.OutputBox.Size = new System.Drawing.Size(415, 167);
             this.OutputBox.TabIndex = 4;
             this.OutputBox.Text = "";
             // 
@@ -139,7 +139,8 @@
             this.TwoThreePicker.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.TwoThreePicker.FormattingEnabled = true;
             this.TwoThreePicker.Items.AddRange(new object[] {
-            "Two"});
+            "Two",
+            "Three"});
             this.TwoThreePicker.Location = new System.Drawing.Point(199, 12);
             this.TwoThreePicker.Name = "TwoThreePicker";
             this.TwoThreePicker.Size = new System.Drawing.Size(100, 24);
@@ -160,7 +161,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(439, 268);
+            this.ClientSize = new System.Drawing.Size(439, 310);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.TwoThreePicker);
             this.Controls.Add(this.ThreeLabel);
